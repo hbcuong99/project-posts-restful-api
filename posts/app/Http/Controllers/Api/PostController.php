@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Requests\PostStore;
+use App\Http\Requests\PostUpdate;
 
 class PostController extends Controller
 {
@@ -25,9 +27,9 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostStore $request)
     {
-        $data = $request->all();
+        $data = $request->input();
         return Post::create($data);
     }
 
@@ -37,9 +39,9 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Post $post)
     {
-        //
+        return $post;
     }
 
     /**
@@ -49,9 +51,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostUpdate $request, Post $post)
     {
-        //
+        $data = $request->input();
+        return $post->update($data);
     }
 
     /**
@@ -60,8 +63,8 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        //
+        return $post->delete();
     }
 }
